@@ -13,10 +13,13 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    fetch("http://localhost:3000/tasks")
+    fetch("http://localhost:9393/tasks")
     .then(res => res.json())
-    .then(tasks => this.setState({ tasks }))
+    .then(data => this.setState({
+      tasks: data.tasks
+    }))
   }
+
 
   handleClick =(event) => {
     event.target.innerText === "All" ? 
@@ -26,8 +29,12 @@ class App extends React.Component {
 
   handleDelete  = (deleteTask) => {
 
-    fetch("http://localhost:3000/tasks/"+deleteTask.id, {
+    fetch("http://localhost:9393/tasks/"+deleteTask.id, {
       method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+      } 
+      // send headers to make sure your request is received as a delete request and not an only option request
     })
 
     this.setState({
@@ -38,7 +45,7 @@ class App extends React.Component {
   handleAddTask = (e) => {
     e.preventDefault()
 
-    fetch("http://localhost:3000/tasks", {
+    fetch("http://localhost:9393/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -49,18 +56,17 @@ class App extends React.Component {
       })
     })
     .then(res => res.json())
-    .then(addedTask => {
+    .then(data => {
       this.setState({
-        tasks: [...this.state.tasks, addedTask], 
+        tasks: [...this.state.tasks, data.task], 
         newTask: ""
       })
     })
   }
 
   render() {
-      
-    let filterTasks = this.state.tasks.filter(task => task.category.includes(this.state.categoryDisplay))
-    
+    console.log(this.state.tasks)
+      let filterTasks = this.state.tasks.filter(task => task.category.includes(this.state.categoryDisplay))
     return (
       <div className="App">
         <h2>My tasks</h2>

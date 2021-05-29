@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "TODO App",
+            "group": "TODO App",
+            "database": "${workspaceFolder:phase-3-todo-app-rack-react}/back-end/db/development.sqlite3"
+        }
+    ]
+}
